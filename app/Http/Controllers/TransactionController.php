@@ -24,7 +24,7 @@ class TransactionController extends Controller
         return response(['message' => 'ok']);
     }
 
-    public function storeMultiple(TransactionStoreManyRequest $request)
+    public function storeMany(TransactionStoreManyRequest $request)
     {
         $wallets = User::whereIn($request->only('user_ids'))->with('wallet')->pluck('wallet')->get();
         app(TransactionQueryHandler::class)->apply(
