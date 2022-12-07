@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SchoolController;
@@ -36,3 +37,8 @@ Route::post('student/batch', [StudentController::class, 'storeMany']);
 
 Route::apiResource('transaction', TransactionController::class)->only('index', 'store');
 Route::post('transaction/batch', [TransactionController::class, 'storeMany']);
+
+Route::prefix('auth')->group(function () {
+    Route::post('login', [AuthController::class, 'auth']);
+    Route::delete('login', [AuthController::class, 'logout']);
+});
