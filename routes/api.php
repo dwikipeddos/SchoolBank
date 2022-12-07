@@ -40,5 +40,5 @@ Route::post('transaction/batch', [TransactionController::class, 'storeMany']);
 
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'auth']);
-    Route::delete('login', [AuthController::class, 'logout']);
+    Route::delete('logout', [AuthController::class, 'logout']);
 });
