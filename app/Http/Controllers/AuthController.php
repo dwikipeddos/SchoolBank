@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class AuthController extends Controller
@@ -21,5 +22,11 @@ class AuthController extends Controller
         } else {
             return response(['message' => 'wrong email or password'], Response::HTTP_FORBIDDEN);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+        return response(['message' => 'logged out']);
     }
 }
