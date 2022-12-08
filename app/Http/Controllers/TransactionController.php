@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionStoreManyRequest;
 use App\Http\Requests\TransactionStoreRequest;
 use App\Models\User;
+use App\Queries\TransactionQuery as QueriesTransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQueryHandler;
-use Illuminate\Http\Request;
 use Bavix\Wallet\Models\Transaction;
 
 class TransactionController extends Controller
@@ -15,7 +15,7 @@ class TransactionController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Transaction::class);
-        return response(Transaction::all());
+        return response((new QueriesTransactionQuery)->includes()->filterSortPaginate());
     }
 
     public function store(TransactionStoreRequest $request, User $user)

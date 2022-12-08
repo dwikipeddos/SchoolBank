@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SchoolStoreRequest;
 use App\Http\Requests\SchoolUpdateRequest;
 use App\Models\School;
+use App\Queries\SchoolQuery;
 
 class SchoolController extends Controller
 {
     public function index()
     {
         $this->authorize('viewAny', School::class);
-        return response(School::all());
+        return response((new SchoolQuery)->includes()->filterSortPaginate());
     }
 
 

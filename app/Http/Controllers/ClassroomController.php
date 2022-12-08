@@ -6,13 +6,14 @@ use App\Http\Requests\ClassroomStoreManyRequest;
 use App\Http\Requests\ClassroomStoreRequest;
 use App\Http\Requests\ClassroomUpdateRequest;
 use App\Models\Classroom;
+use App\Queries\ClassroomQuery;
 
 class ClassroomController extends Controller
 {
     public function index()
     {
         $this->authorize('viewAny', Classroom::class);
-        return response(Classroom::all());
+        return response((new ClassroomQuery)->includes()->filterSortPaginateWithAppend());
     }
 
 

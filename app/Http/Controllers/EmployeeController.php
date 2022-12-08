@@ -7,6 +7,7 @@ use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
 use App\Models\Employee;
 use App\Models\User;
+use App\Queries\EmployeeQuery;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
@@ -14,9 +15,8 @@ class EmployeeController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Employee::class);
-        return response(Employee::all());
+        return response((new EmployeeQuery)->includes()->filterSortPaginate());
     }
-
 
     public function store(EmployeeStoreRequest $request)
     {

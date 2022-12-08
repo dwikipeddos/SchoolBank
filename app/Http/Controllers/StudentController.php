@@ -7,7 +7,7 @@ use App\Http\Requests\StudentStoreRequest;
 use App\Http\Requests\StudentUpdateRequest;
 use App\Models\Student;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Queries\StudentQuery;
 use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
@@ -15,7 +15,7 @@ class StudentController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Student::class);
-        return response(Student::all());
+        return response((new StudentQuery)->includes()->filterSortPaginate());
     }
 
     public function store(StudentStoreRequest $request)
