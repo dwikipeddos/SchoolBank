@@ -15,8 +15,8 @@ class SchoolQuery extends PaginatedQuery
     protected function getAllowedIncludes(): array
     {
         return [
-            AllowedInclude::relationship('students', 'students.user'),
-            AllowedInclude::relationship('employees', 'employees.user'),
+            AllowedInclude::relationship('students.user'),
+            AllowedInclude::relationship('employees.user'),
             AllowedInclude::relationship('classrooms'),
         ];
     }
