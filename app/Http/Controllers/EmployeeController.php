@@ -23,7 +23,7 @@ class EmployeeController extends Controller
     {
         $user = User::create($request->only('email', 'name') + ['password' => $request->nip]);
         $user->employee()->create($request->validated());
-        $user->employee->schools->attach(School::find($request->school->id));
+        $user->employee->schools->attach(School::find($request->school_id));
         return response($user);
     }
 
