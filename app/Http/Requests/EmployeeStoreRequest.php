@@ -26,7 +26,7 @@ class EmployeeStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'nik' => ['required', 'string'],
+            'nip' => ['required', 'string'],
             'school_id' => ['required', 'exists:schools,id'],
         ];
     }
