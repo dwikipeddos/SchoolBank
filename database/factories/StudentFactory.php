@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Classroom;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nis' => $this->faker->randomNumber(10),
+            'classroom_id' => Classroom::factory()->create()->id,
+            'user_id' => User::factory()->create()->id,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

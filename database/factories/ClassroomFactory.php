@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\School;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,12 @@ class ClassroomFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'class' => $this->faker->randomElements(['X', 'XII', 'XI']),
+            'name' => $this->faker->randomElement(['IPA', 'IPS']) . $this->faker->numberBetween(1, 10),
+            'year' => $this->faker->year(),
+            'school_id' => School::factory()->create()->id,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
