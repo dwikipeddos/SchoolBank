@@ -20,7 +20,7 @@ class EmployeeController extends Controller
 
     public function store(EmployeeStoreRequest $request)
     {
-        $user = User::create($request->only('email') + ['password' => $request->safe(['nip'])]);
+        $user = User::create($request->only('email') + ['password' => $request->nip]);
         $user->employee()->create($request->validated());
         return response($user);
     }
