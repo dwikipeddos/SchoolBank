@@ -42,3 +42,5 @@ Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'auth']);
     Route::delete('logout', [AuthController::class, 'logout']);
 });
+
+Route::get('ola', fn () => "ola");

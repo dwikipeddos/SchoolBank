@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use Bavix\Wallet\Models\Transaction;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TransactionPolicy
@@ -17,5 +18,10 @@ class TransactionPolicy
     public function viewAny(User $user)
     {
         return $user->can('view-any-transaction');
+    }
+
+    public function edit(User $user, Transaction $transaction)
+    {
+        return true;
     }
 }
