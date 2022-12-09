@@ -6,6 +6,7 @@ use App\Http\Requests\EmployeeStoreManyRequest;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
 use App\Models\Employee;
+use App\Models\School;
 use App\Models\User;
 use App\Queries\EmployeeQuery;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,7 @@ class EmployeeController extends Controller
     {
         $user = User::create($request->only('email', 'name') + ['password' => $request->nip]);
         $user->employee()->create($request->validated());
+        $user->employee->schools->attach(School::find($request->school->id));
         return response($user);
     }
 
