@@ -15,7 +15,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $this->authorize('viewAny', Employee::class);
+        $this->authorize("viewAny", Employee::class);
         return response((new EmployeeQuery)->includes()->filterSortPaginate());
     }
 
