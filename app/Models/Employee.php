@@ -20,7 +20,7 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function school()
+    public function schools()
     {
         return $this->belongsToMany(School::class);
     }
