@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Bavix\Wallet\Models\Transaction;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TransactionStoreRequest extends FormRequest
@@ -13,7 +14,7 @@ class TransactionStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user->can('create', Transaction::class);
     }
 
     /**
@@ -24,7 +25,7 @@ class TransactionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'amount' => ['required', 'numeric'],
         ];
     }
 }

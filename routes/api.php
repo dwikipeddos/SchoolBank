@@ -35,7 +35,7 @@ Route::post('employee/batch', [EmployeeController::class, 'storeMany']);
 Route::apiResource('student', StudentController::class);
 Route::post('student/batch', [StudentController::class, 'storeMany']);
 
-Route::apiResource('transaction', TransactionController::class)->only('index', 'store');
+Route::apiResource('transaction/{user}', TransactionController::class)->only('index', 'store');
 Route::post('transaction/batch', [TransactionController::class, 'storeMany']);
 
 Route::prefix('auth')->group(function () {
