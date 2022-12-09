@@ -18,7 +18,7 @@ class ClassroomQuery extends PaginatedQuery
         return [
             AllowedInclude::relationship('school'),
             AllowedInclude::relationship('students'),
-            AllowedInclude::relationship('user', 'students.user'),
+            AllowedInclude::relationship('students.user'),
         ];
     }
 
