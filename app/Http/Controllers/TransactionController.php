@@ -23,7 +23,7 @@ class TransactionController extends Controller
         if ($request->amount > 0)
             $user->deposit($request->amount);
         else if ($request->amount < 0)
-            $user->withdraw($request->amount);
+            $user->withdraw(abs($request->amount));
         else throw new \Exception('amount cannot be 0');
         return response(['message' => 'ok']);
     }
