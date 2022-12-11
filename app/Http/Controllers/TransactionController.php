@@ -20,7 +20,11 @@ class TransactionController extends Controller
 
     public function store(TransactionStoreRequest $request, User $user)
     {
-        $user->deposit($request->amount);
+        if ($request->amount > 0)
+            $user->deposit($request->amount);
+        else if ($request->amount < 0)
+            $user->withdraw($request->amount);
+        else throw new \Exception('amount cannot be 0');
         return response(['message' => 'ok']);
     }
 
