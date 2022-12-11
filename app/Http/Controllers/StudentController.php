@@ -21,7 +21,7 @@ class StudentController extends Controller
     public function store(StudentStoreRequest $request)
     {
         DB::beginTransaction();
-        $user = User::create($request->only('email') + ['password' => $request->nis]);
+        $user = User::create($request->only('email', 'name') + ['password' => $request->nis]);
         $user->student()->create($request->only(['nis', 'classroom_id']));
         DB::commit();
         return response($user);
@@ -57,6 +57,7 @@ class StudentController extends Controller
 
     public function update(StudentUpdateRequest $request, Student $student)
     {
+        if ($request->name || $request->email) $student->user()->update($request->validated());
         $student->update($request->validated());
         return response($student);
     }
