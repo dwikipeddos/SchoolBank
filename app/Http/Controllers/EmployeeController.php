@@ -23,7 +23,7 @@ class EmployeeController extends Controller
     {
         $user = User::create($request->only('email', 'name') + ['password' => $request->nip]);
         $user->employee()->create($request->validated());
-        $user->employee->schools()->attach(School::find($request->school_id));
+        $user->employee->schools()->attach(School::whereIn('id', $request->school_ids)->get());
         return response($user);
     }
 
@@ -56,6 +56,11 @@ class EmployeeController extends Controller
 
     public function update(EmployeeUpdateRequest $request, Employee $employee)
     {
+        if ($request->name) $employee->user()->update($request->only('name'));
+        if ($request->school_ids) {
+            $employee->schools()->delete();
+            $employee->schools()->attach(School::whereIn('id', $request->school_ids)->get());
+        }
         $employee->update($request->validated());
         return response($employee);
     }

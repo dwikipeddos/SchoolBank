@@ -25,8 +25,9 @@ class EmployeeUpdateRequest extends FormRequest
     {
         return [
             'name' => ['string'],
-            'nik' => ['string'],
-            'school_id' => ['exists:schools,id'],
+            'nip' => ['string'],
+            'school_ids' => ['array'],
+            'school_ids.*' => ['exists:schools,id'],
         ];
     }
 }
