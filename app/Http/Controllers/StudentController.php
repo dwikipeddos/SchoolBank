@@ -57,7 +57,7 @@ class StudentController extends Controller
 
     public function update(StudentUpdateRequest $request, Student $student)
     {
-        if ($request->name || $request->email) $student->user()->update($request->validated());
+        if ($request->name || $request->email) $student->user()->update($request->except('nis', 'classroom_id'));
         $student->update($request->validated());
         return response($student);
     }
