@@ -56,12 +56,15 @@ class EmployeeController extends Controller
 
     public function update(EmployeeUpdateRequest $request, Employee $employee)
     {
+        DB::beginTransaction();
         if ($request->name) $employee->user()->update($request->only('name'));
         if ($request->school_ids) {
-            $employee->schools()->delete();
-            $employee->schools()->attach(School::whereIn('id', $request->school_ids)->get());
+            $employee->schools()->detach();
+            $employee->schools()->attach($request->school_ids);
+            // School::whereIn('id', $request->school_ids)->get()
         }
         $employee->update($request->validated());
+        DB::commit();
         return response($employee);
     }
 
