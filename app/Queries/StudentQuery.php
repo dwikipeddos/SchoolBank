@@ -27,6 +27,7 @@ class StudentQuery extends PaginatedQuery
         return [
             AllowedFilter::exact('classroom_id'),
             AllowedFilter::exact('school_id', 'classroom.id'),
+            AllowedFilter::partial('nis'),
         ];
     }
 }

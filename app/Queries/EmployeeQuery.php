@@ -26,7 +26,7 @@ class EmployeeQuery extends PaginatedQuery
         return [
             AllowedFilter::exact('user_id'),
             AllowedFilter::exact('school_id', 'schools.id'),
-            AllowedFilter::partial('nik'),
+            AllowedFilter::partial('nip'),
         ];
     }
 }
