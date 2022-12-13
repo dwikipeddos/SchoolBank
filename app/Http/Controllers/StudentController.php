@@ -56,7 +56,7 @@ class StudentController extends Controller
 
     public function showByNis($nis)
     {
-        return response((new StudentQuery)->where('nis', $nis)->includes()->first());
+        return response((new StudentQuery)->where('nis', $nis)->includes()->firstOrFail());
     }
 
 
