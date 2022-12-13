@@ -41,8 +41,9 @@ class ReinsertRolePermission extends Command
 
     protected function truncate()
     {
-        Role::query()->delete();
+        DB::table('role_has_permission')->truncate();
         Permission::query()->delete();
+        Role::query()->delete();
     }
 
     protected function createRolesAndPermissions()
