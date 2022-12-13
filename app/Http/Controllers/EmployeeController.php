@@ -54,6 +54,11 @@ class EmployeeController extends Controller
         return response($employee);
     }
 
+    public function showByNip($nip)
+    {
+        return response((new EmployeeQuery)->where('nip', $nip)->includes()->first());
+    }
+
     public function update(EmployeeUpdateRequest $request, Employee $employee)
     {
         DB::beginTransaction();

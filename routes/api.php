@@ -30,9 +30,11 @@ Route::apiResource('classroom', ClassroomController::class);
 Route::post('classroom/batch', [ClassroomController::class, 'storeMany']);
 
 Route::apiResource('employee', EmployeeController::class);
+Route::get('employee/nip/{nip}', [EmployeeController::class, 'showByNip']);
 Route::post('employee/batch', [EmployeeController::class, 'storeMany']);
 
 Route::apiResource('student', StudentController::class);
+Route::get('student/nis/{nis}', [StudentController::class, 'showByNis']);
 Route::post('student/batch', [StudentController::class, 'storeMany']);
 
 Route::apiResource('transaction/{user}', TransactionController::class)->only('index', 'store');

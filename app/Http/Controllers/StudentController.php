@@ -54,6 +54,11 @@ class StudentController extends Controller
         return response($student);
     }
 
+    public function showByNis($nis)
+    {
+        return response((new StudentQuery)->where('nis', $nis)->includes()->first());
+    }
+
 
     public function update(StudentUpdateRequest $request, Student $student)
     {
