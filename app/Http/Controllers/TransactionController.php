@@ -30,7 +30,14 @@ class TransactionController extends Controller
 
     public function storeMany(TransactionStoreManyRequest $request)
     {
-        $wallets = User::whereIn($request->only('user_ids'))->with('wallet')->pluck('wallet')->get();
+        $wallets = User::whereIn($request->only('user_ids'))
+            ->orderByRaw("FIELD(id," . implode($request->user_ids) . ")")
+            ->with('wallet')
+            ->get()->pluck('wallet');
+
+        for ($i = 0; $i < count($wallets); $i++) {
+            $wallets[$i]->amount = $ss;
+        }
         app(TransactionQueryHandler::class)->apply(
             array_map(
                 static fn ($wallet) => TransactionQuery::createDeposit($wallet, $request->amount, []),
