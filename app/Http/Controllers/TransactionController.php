@@ -36,7 +36,7 @@ class TransactionController extends Controller
             ->get()->pluck('wallet');
 
         for ($i = 0; $i < count($wallets); $i++) {
-            $wallets[$i]->amount = $ss;
+            $wallets[$i]->amount = $request->amounts[$i];
         }
         app(TransactionQueryHandler::class)->apply(
             array_map(
