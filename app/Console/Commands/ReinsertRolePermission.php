@@ -30,12 +30,9 @@ class ReinsertRolePermission extends Command
      */
     public function handle()
     {
-        DB::transaction(function () {
-            $this->truncate();
-            $this->createRolesAndPermissions();
-            $this->assignPermissionToRoles();
-        });
-
+        $this->truncate();
+        $this->createRolesAndPermissions();
+        $this->assignPermissionToRoles();
         return Command::SUCCESS;
     }
 
