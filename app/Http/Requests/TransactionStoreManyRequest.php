@@ -13,7 +13,7 @@ class TransactionStoreManyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class TransactionStoreManyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_ids' => ['array', 'required'],
+            'user_ids.*' => ['exists:users,id'],
+            'amounts' => ['array', 'required'],
+            'amounts.*' => ['numeric'],
         ];
     }
 }

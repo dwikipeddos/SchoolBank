@@ -35,11 +35,11 @@ Route::post('employee/batch', [EmployeeController::class, 'storeMany']);
 
 Route::apiResource('student', StudentController::class);
 Route::get('student/nis/{nis}', [StudentController::class, 'showByNis']);
-Route::post('student/batch', [StudentController::class, 'storeMany']);
+Route::post('student_batch', [StudentController::class, 'storeMany']);
 
 Route::apiResource('transaction', TransactionController::class)->only('index');
 Route::post('transaction/{user}', [TransactionController::class, 'store']);
-Route::post('transaction/batch', [TransactionController::class, 'storeMany']);
+Route::post('transaction_batch', [TransactionController::class, 'storeMany']);
 
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'auth']);
