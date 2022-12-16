@@ -9,7 +9,6 @@ use App\Queries\TransactionQuery as QueriesTransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQueryHandler;
 use Bavix\Wallet\Models\Transaction;
-use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
@@ -31,8 +30,11 @@ class TransactionController extends Controller
 
     public function storeMany(TransactionStoreManyRequest $request)
     {
-        $wallets = User::whereIn('id', $request->user_ids)
-            ->orderByRaw("FIELD(id," . implode($request->user_ids) . ")")
+        $user_ids = array_column($request->transactions, 'user_id');
+        $amounts = array_column($request->transactions, 'amount');
+
+        $wallets = User::whereIn('id', $user_ids)
+            ->orderByRaw("FIELD(id," . implode($user_ids) . ")")
             ->with('wallet')
             ->get()->pluck('wallet');
 
@@ -40,7 +42,7 @@ class TransactionController extends Controller
         for ($i = 0; $i < count($wallets); $i++) {
             $transactions[] = [
                 'wallet' => $wallets[$i],
-                'amount' => $request->amounts[$i],
+                'amount' => $amounts[$i],
             ];
         }
         app(TransactionQueryHandler::class)->apply(

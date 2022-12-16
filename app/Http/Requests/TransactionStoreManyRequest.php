@@ -24,10 +24,12 @@ class TransactionStoreManyRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_ids' => ['array', 'required'],
-            'user_ids.*' => ['exists:users,id'],
-            'amounts' => ['array', 'required'],
-            'amounts.*' => ['numeric'],
+            'transactions.*.user_ids' => ['exists:users,id'],
+            'transactions.*.amounts' => ['exists:users,id'],
+            // 'user_ids' => ['array', 'required'],
+            // 'user_ids.*' => ['exists:users,id'],
+            // 'amounts' => ['array', 'required'],
+            // 'amounts.*' => ['numeric'],
         ];
     }
 }
