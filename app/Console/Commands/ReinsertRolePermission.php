@@ -79,6 +79,10 @@ class ReinsertRolePermission extends Command
         );
 
         Role::findByName('school-admin', 'api')->givePermissionTo(
+            //roles
+            'assign-school-employee-role',
+            'revoke-school-employee-role',
+
             //school
             'edit-school',
 
@@ -107,6 +111,31 @@ class ReinsertRolePermission extends Command
     protected function getPermissions(): array
     {
         return [
+            //roles
+            [
+                'name' => 'assign-school-admin-role',
+                'guard_name' => 'api',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'assign-school-employee-role',
+                'guard_name' => 'api',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'revoke-school-admin-role',
+                'guard_name' => 'api',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'revoke-school-employee-role',
+                'guard_name' => 'api',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             //school
             [
                 'name' => 'create-school',

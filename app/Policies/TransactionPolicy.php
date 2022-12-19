@@ -22,6 +22,6 @@ class TransactionPolicy
 
     public function edit(User $user, Transaction $transaction)
     {
-        return true;
+        return false;
     }
 }

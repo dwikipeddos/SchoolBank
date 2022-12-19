@@ -12,6 +12,11 @@ use Bavix\Wallet\Models\Transaction;
 
 class TransactionController extends Controller
 {
+    protected function getTransactionBaseMeta(): array
+    {
+        return ['employee_id' => auth()->user()->employee_id];
+    }
+
     public function index()
     {
         $this->authorize('viewAny', Transaction::class);
@@ -21,9 +26,9 @@ class TransactionController extends Controller
     public function store(TransactionStoreRequest $request, User $user)
     {
         if ($request->amount > 0)
-            $user->deposit($request->amount);
+            $user->deposit($request->amount, $this->getTransactionBaseMeta());
         else if ($request->amount < 0)
-            $user->withdraw(abs($request->amount));
+            $user->withdraw(abs($request->amount, $this->getTransactionBaseMeta()));
         else throw new \Exception('amount cannot be 0');
         return response(['message' => 'ok']);
     }
@@ -47,7 +52,7 @@ class TransactionController extends Controller
         }
         app(TransactionQueryHandler::class)->apply(
             array_map(
-                static fn ($transaction) => TransactionQuery::createDeposit($transaction['wallet'], $transaction['amount'], []),
+                static fn ($transaction) => TransactionQuery::createDeposit($transaction['wallet'], $transaction['amount'], $this->getTransactionBaseMeta()),
                 $transactions
             )
         );
