@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TransactionController;
@@ -25,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::apiResource('school', SchoolController::class);
+
+Route::put('role/assign', [RoleController::class, 'assign']);
+Route::put('role/revoke', [RoleController::class, 'revoke']);
 
 Route::apiResource('classroom', ClassroomController::class);
 Route::post('classroom/batch', [ClassroomController::class, 'storeMany']);
