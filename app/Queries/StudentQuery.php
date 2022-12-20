@@ -13,6 +13,10 @@ class StudentQuery extends PaginatedQuery
         parent::__construct(Student::query());
     }
 
+    protected array $append = [
+        'balance',
+    ];
+
     protected function getAllowedIncludes(): array
     {
         return [

@@ -15,7 +15,7 @@ class StudentController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Student::class);
-        return response((new StudentQuery)->includes()->filterSortPaginate());
+        return response((new StudentQuery)->includes()->filterSortPaginateWithAppend());
     }
 
     public function store(StudentStoreRequest $request)

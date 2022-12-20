@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('school', SchoolController::class);
 
+Route::get('role', [RoleController::class, "index"]);
 Route::put('role/assign', [RoleController::class, 'assign']);
 Route::put('role/revoke', [RoleController::class, 'revoke']);
 
