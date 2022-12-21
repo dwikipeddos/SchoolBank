@@ -14,7 +14,7 @@ class AssignRoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user?->can('assign-role', Role::findOrFail($this->role_id));
+        return $this->user()?->can('assign-role', Role::findOrFail($this->role_id));
     }
 
     /**
