@@ -4,9 +4,9 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\Transaction;
 use App\Policies\RolePolicy;
 use App\Policies\TransactionPolicy;
-use Bavix\Wallet\Models\Transaction;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionStoreManyRequest;
 use App\Http\Requests\TransactionStoreRequest;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Queries\TransactionQuery as QueriesTransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQueryHandler;
-use Bavix\Wallet\Models\Transaction;
 
 class TransactionController extends Controller
 {

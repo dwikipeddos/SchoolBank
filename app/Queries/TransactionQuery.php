@@ -2,8 +2,8 @@
 
 namespace App\Queries;
 
+use App\Models\Transaction;
 use App\Models\User;
-use Bavix\Wallet\Models\Transaction;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 

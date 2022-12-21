@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Bavix\Wallet\Models\Transaction;
+use App\Models\Transaction;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TransactionStoreRequest extends FormRequest
