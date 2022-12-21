@@ -9,6 +9,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Spatie\Activitylog\Models\Activity;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::apiResource('school', SchoolController::class);
+Route::get('logs', fn () => Activity::all());
 
 Route::get('role', [RoleController::class, "index"]);
 Route::put('role/assign', [RoleController::class, 'assign']);
