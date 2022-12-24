@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TotalReportRequest;
 use App\Http\Requests\TransactionStoreManyRequest;
 use App\Http\Requests\TransactionStoreRequest;
 use App\Models\Transaction;
@@ -14,8 +15,24 @@ class TransactionController extends Controller
 {
     protected function getTransactionBaseMeta(): array
     {
-        return ['employee_id' => auth()->user()->employee_id];
+        return [
+            'employee_id' => auth()->user()->employee_id,
+            'user_id' => auth()->id(),
+        ];
     }
+
+    public function totalReport(TotalReportRequest $request)
+    {
+        return response(
+            Transaction::when($request->today, fn ($q) => $q->whereDate('created_at', today()))
+                ->when($request->has('start_date'), fn ($q) => $q->whereDate('created_at', '>', $request->start_date))
+                ->when($request->has('end_date'), fn ($q) => $q->whereDate('created_at', '<', $request->end_date))
+                ->when($request->has('type'), fn ($q) => $q->where('type', $request->type))
+                ->sum('amount')
+        );
+    }
+
+
 
     public function index()
     {
@@ -30,6 +47,15 @@ class TransactionController extends Controller
         else if ($request->amount < 0)
             $user->withdraw(abs($request->amount, $this->getTransactionBaseMeta()));
         else throw new \Exception('amount cannot be 0');
+
+        //logs activity
+        $transaction = $user->transactions()->latest()->first();
+        activity()
+            ->performedOn($user->transactions()->latest()->first())
+            ->causedBy(auth()->user())
+            ->withProperties($transaction->toArray())
+            ->event('created')
+            ->log('created');
         return response(['message' => 'ok']);
     }
 
