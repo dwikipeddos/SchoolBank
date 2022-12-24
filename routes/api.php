@@ -47,6 +47,7 @@ Route::post('student_batch', [StudentController::class, 'storeMany']);
 Route::apiResource('transaction', TransactionController::class)->only('index');
 Route::post('transaction/{user}', [TransactionController::class, 'store']);
 Route::post('transaction_batch', [TransactionController::class, 'storeMany']);
+Route::post('transaction_count', [TransactionController::class, 'totalReport']);
 
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'auth']);
