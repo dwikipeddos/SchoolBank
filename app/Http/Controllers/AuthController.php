@@ -14,7 +14,7 @@ class AuthController extends Controller
     public function auth(AuthRequest $request)
     {
         $request->ensureNotRateLimited();
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->with('roles')->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken($request->userAgent() . ', ip:' . $request->ip())->plainTextToken;
