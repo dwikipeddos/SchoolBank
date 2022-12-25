@@ -49,6 +49,7 @@ Route::post('transaction/{user}', [TransactionController::class, 'store']);
 Route::post('transaction_batch', [TransactionController::class, 'storeMany']);
 Route::post('transaction_count', [TransactionController::class, 'totalReport']);
 Route::get('transaction_total', [TransactionController::class, 'activeWalletReport']);
+Route::get('transaction_weekly', [TransactionController::class, 'weeklyReport']);
 
 Route::get('highest', [TransactionController::class, 'highestReport']);
 

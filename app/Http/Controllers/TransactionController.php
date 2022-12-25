@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TransactionTypes;
 use App\Http\Requests\HighestReportRequest;
 use App\Http\Requests\TotalReportRequest;
 use App\Http\Requests\TransactionStoreManyRequest;
@@ -34,16 +35,45 @@ class TransactionController extends Controller
         );
     }
 
+    public function weeklyReport()
+    {
+        $transactions = Transaction::whereBetween('created_at', [
+            now()->startOfWeek(),
+            now()->endOfWeek()
+        ])->get();
+        $transactions = Transaction::all();
+        $transactions = $transactions->groupBy(function ($transaction) {
+            return $transaction->created_at->format('l');
+        });
+
+
+        $counts = $transactions->map(function ($group) {
+            return [
+                'day' => $group->first()->created_at->format('l'),
+                'withdraw' => $group->where('type', TransactionTypes::WITHDRAW->value)->count(),
+                'deposit' => $group->where('type', TransactionTypes::DEPOSIT->value)->count(),
+            ];
+        });
+
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        $zeroCounts = collect(array_flip($days))->map(function ($day) use ($days) {
+            return [
+                'day' => $days[$day],
+                'withdraw' => 0,
+                'deposit' => 0,
+            ];
+        });
+
+        $counts = $zeroCounts->merge($counts)->sortBy(function ($count) use ($days) {
+            return array_search($count['day'], $days);
+        });
+        return $counts;
+    }
+
     public function activeWalletReport()
     {
         $wallets = Wallet::with('holder.student.classroom.school')->whereHas('holder.student')->get();
-        // $result = [];
-        // foreach ($wallets as $wallet) {
-        //     $school = $wallet->holder->student->classroom->school->name;
-        //     $result[$school][] = 
-        // }
-        // dd($wallets->pluck('holder.student')->toArray());
-        // dd($wallets->toArray());
         $summedBalances = $wallets->groupBy(function ($wallet) {
             return optional($wallet?->holder?->student?->classroom?->school)->name;
         })->map(function ($group) {
