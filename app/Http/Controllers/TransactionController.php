@@ -76,13 +76,15 @@ class TransactionController extends Controller
         $wallets = Wallet::with('holder.student.classroom.school')->whereHas('holder.student')->get();
         $summedBalances = $wallets->groupBy(function ($wallet) {
             return optional($wallet?->holder?->student?->classroom?->school)->name;
-        })->map(function ($group) {
-            return [
-                'school' => $group->first()->holder?->student?->classroom?->school->name,
-                'balance' => $group->sum('balance'),
-            ];
         });
-        return response($summedBalances);
+        $result = [];
+        foreach ($summedBalances as $sum) {
+            $result[] = [
+                'school' => $sum->first()->holder?->student?->classroom?->school->name,
+                'balance' => $sum->sum('balance')
+            ];
+        }
+        return response($result);
     }
 
     public function highestReport(HighestReportRequest $request)
