@@ -36,6 +36,23 @@ class TransactionController extends Controller
 
     public function activeWalletReport()
     {
+        $wallets = Wallet::with('holder.student.classroom.school')->whereHas('holder.student')->get();
+        // $result = [];
+        // foreach ($wallets as $wallet) {
+        //     $school = $wallet->holder->student->classroom->school->name;
+        //     $result[$school][] = 
+        // }
+        // dd($wallets->pluck('holder.student')->toArray());
+        // dd($wallets->toArray());
+        $summedBalances = $wallets->groupBy(function ($wallet) {
+            return optional($wallet?->holder?->student?->classroom?->school)->name;
+        })->map(function ($group) {
+            return [
+                'school' => $group->first()->holder?->student?->classroom?->school->name,
+                'balance' => $group->sum('balance'),
+            ];
+        });
+        return response($summedBalances);
     }
 
     public function highestReport(HighestReportRequest $request)
@@ -48,8 +65,6 @@ class TransactionController extends Controller
                 ->limit($request->limit ?? 5)->get()
         );
     }
-
-
 
     public function index()
     {

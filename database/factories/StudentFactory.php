@@ -19,7 +19,7 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            'nis' => $this->faker->randomNumber(10),
+            'nis' => $this->faker->randomNumber(5),
             'classroom_id' => Classroom::factory()->create()->id,
             'user_id' => User::factory()->create()->id,
             'created_at' => now(),
