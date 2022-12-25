@@ -7,7 +7,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TransactionController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
 
@@ -50,8 +49,8 @@ Route::post('transaction_batch', [TransactionController::class, 'storeMany']);
 Route::post('transaction_count', [TransactionController::class, 'totalReport']);
 Route::get('transaction_total', [TransactionController::class, 'activeWalletReport']);
 Route::get('transaction_weekly', [TransactionController::class, 'weeklyReport']);
+Route::get('transaction_highest', [TransactionController::class, 'highestReport']);
 
-Route::get('highest', [TransactionController::class, 'highestReport']);
 
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'auth']);
