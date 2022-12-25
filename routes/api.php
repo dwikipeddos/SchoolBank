@@ -49,6 +49,8 @@ Route::post('transaction/{user}', [TransactionController::class, 'store']);
 Route::post('transaction_batch', [TransactionController::class, 'storeMany']);
 Route::post('transaction_count', [TransactionController::class, 'totalReport']);
 
+Route::get('highest', [TransactionController::class, 'highestReport']);
+
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'auth']);
     Route::delete('logout', [AuthController::class, 'logout']);

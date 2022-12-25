@@ -18,6 +18,9 @@ class TransactionQuery extends PaginatedQuery
     {
         return [
             AllowedInclude::relationship('user', 'payable'),
+            AllowedInclude::relationship('payable.student'),
+            AllowedInclude::relationship('payable.student.classroom'),
+            AllowedInclude::relationship('payable.student.classroom.school'),
         ];
     }
 
@@ -27,6 +30,9 @@ class TransactionQuery extends PaginatedQuery
             AllowedFilter::callback('school_id', fn ($builder, $val) => $builder->whereRelation('payable.student', 'id', $val)),
             AllowedFilter::callback('user_id', fn ($builder, $val) => $builder->where('payable_type', User::class)->where('payable_id', $val)),
             AllowedFilter::callback('employee_id', fn ($builder, $val) => $builder->whereJsonContains('employee_id', $val)),
+            AllowedFilter::callback('start_date', fn ($builder, $val) => $builder->whereDate('created_at', '>=', $val)),
+            AllowedFilter::callback('end_date', fn ($builder, $val) => $builder->whereDate('created_at', '<=', $val)),
+
         ];
     }
 }

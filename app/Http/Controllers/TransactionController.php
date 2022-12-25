@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HighestReportRequest;
 use App\Http\Requests\TotalReportRequest;
 use App\Http\Requests\TransactionStoreManyRequest;
 use App\Http\Requests\TransactionStoreRequest;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Queries\TransactionQuery as QueriesTransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQueryHandler;
+use Bavix\Wallet\Models\Wallet;
 
 class TransactionController extends Controller
 {
@@ -29,6 +31,21 @@ class TransactionController extends Controller
                 ->when($request->has('end_date'), fn ($q) => $q->whereDate('created_at', '<', $request->end_date))
                 ->when($request->has('type'), fn ($q) => $q->where('type', $request->type))
                 ->sum('amount')
+        );
+    }
+
+    public function activeWalletReport()
+    {
+    }
+
+    public function highestReport(HighestReportRequest $request)
+    {
+        return response(
+            Wallet::orderBy('balance', 'desc')
+                ->with('holder.student.classroom.school')
+                ->when($request->school_id, fn ($q) => $q->whereRelation('holder.student.classroom', 'school_id', $request->school_id))
+                ->when($request->classroom_id, fn ($q) => $q->whereRelation('holder.student', 'classroom_id', $request->classroom_id))
+                ->limit($request->limit ?? 5)->get()
         );
     }
 
