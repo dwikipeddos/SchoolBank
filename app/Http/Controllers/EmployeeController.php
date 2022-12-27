@@ -71,7 +71,7 @@ class EmployeeController extends Controller
         }
         $employee->update($request->validated());
         DB::commit();
-        return response($employee);
+        return response($employee->fresh()->load('user'));
     }
 
     public function destroy(Employee $employee)

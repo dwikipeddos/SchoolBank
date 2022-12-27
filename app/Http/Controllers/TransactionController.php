@@ -109,7 +109,7 @@ class TransactionController extends Controller
         if ($request->amount > 0)
             $user->deposit($request->amount, $this->getTransactionBaseMeta());
         else if ($request->amount < 0)
-            $user->withdraw(abs($request->amount, $this->getTransactionBaseMeta()));
+            $user->withdraw(abs($request->amount), $this->getTransactionBaseMeta());
         else throw new \Exception('amount cannot be 0');
 
         //logs activity
