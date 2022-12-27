@@ -103,6 +103,12 @@ class ReinsertRolePermission extends Command
             'create-many-transaction',
             'view-any-transaction',
             'view-own-transaction',
+
+            //transaction
+            'create-transaction',
+            'create-many-transaction',
+            'view-any-transaction',
+            'view-own-transaction',
         );
 
         Role::findByName('student', 'api')->givePermissionTo('view-own-transaction');

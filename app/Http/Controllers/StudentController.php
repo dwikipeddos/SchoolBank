@@ -23,6 +23,7 @@ class StudentController extends Controller
         DB::beginTransaction();
         $user = User::create($request->only('email', 'name') + ['password' => $request->nis]);
         $user->student()->create($request->only(['nis', 'classroom_id']));
+        $user->assignRole('student');
         DB::commit();
         return response($user);
     }

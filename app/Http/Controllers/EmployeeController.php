@@ -24,6 +24,7 @@ class EmployeeController extends Controller
         $user = User::create($request->only('email', 'name') + ['password' => $request->nip]);
         $user->employee()->create($request->validated());
         $user->employee->schools()->attach(School::whereIn('id', $request->school_ids)->get());
+        $user->assignRole('school-employee');
         return response($user);
     }
 
