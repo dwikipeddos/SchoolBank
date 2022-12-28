@@ -98,6 +98,10 @@ class TransactionController extends Controller
         );
     }
 
+    public function excelReport()
+    {
+    }
+
     public function index()
     {
         $this->authorize('viewAny', Transaction::class);
