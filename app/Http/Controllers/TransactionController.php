@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TransactionTypes;
+use App\Exports\TransactionExport;
 use App\Http\Requests\HighestReportRequest;
 use App\Http\Requests\TotalReportRequest;
 use App\Http\Requests\TransactionStoreManyRequest;
@@ -13,6 +14,7 @@ use App\Queries\TransactionQuery as QueriesTransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQueryHandler;
 use Bavix\Wallet\Models\Wallet;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -100,6 +102,7 @@ class TransactionController extends Controller
 
     public function excelReport()
     {
+        return Excel::download(new TransactionExport([]), 'report.xlsx');
     }
 
     public function index()
