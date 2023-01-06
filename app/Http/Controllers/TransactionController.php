@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\TransactionTypes;
 use App\Exports\TransactionExport;
+use App\Http\Requests\ExcelReportRequest;
 use App\Http\Requests\HighestReportRequest;
 use App\Http\Requests\TotalReportRequest;
 use App\Http\Requests\TransactionStoreManyRequest;
@@ -100,9 +101,9 @@ class TransactionController extends Controller
         );
     }
 
-    public function excelReport()
+    public function excelReport(ExcelReportRequest $request)
     {
-        return Excel::download(new TransactionExport([]), 'report.xlsx');
+        return Excel::download(new TransactionExport($request->validated()), 'report.xlsx');
     }
 
     public function index()

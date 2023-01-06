@@ -265,6 +265,14 @@ class ReinsertRolePermission extends Command
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+            //report
+            [
+                'name' => 'view-excel-report',
+                'guard_name' => 'api',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
     }
 
