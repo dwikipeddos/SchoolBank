@@ -13,7 +13,7 @@ class ExcelReportRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('view-excel-report');
+        return auth()->user()?->can('view-excel-report');
     }
 
     /**
