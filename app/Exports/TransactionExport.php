@@ -14,8 +14,8 @@ class TransactionExport implements FromCollection, WithHeadingRow
 
     public function collection()
     {
-        $transactions = Transaction::when(isset($this->dates['start_date']), fn ($builder, $val) => $builder->whereDate('created_at', '>=', $val))
-            ->when(isset($this->dates['end_date']), fn ($builder, $val) => $builder->whereDate('created_at', '<=', $val))
+        $transactions = Transaction::when($this->dates['start_date'], fn ($builder, $val) => $builder->whereDate('created_at', '>=', $val))
+            ->when($this->dates['end_date'], fn ($builder, $val) => $builder->whereDate('created_at', '<=', $val))
             ->with('payable.student.classroom.school')
             ->get();
         return $this->mapData($transactions);
