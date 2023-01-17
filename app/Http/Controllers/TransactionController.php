@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Queries\TransactionQuery as QueriesTransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQuery;
 use Bavix\Wallet\External\Api\TransactionQueryHandler;
+use Bavix\Wallet\Models\Transaction as ModelsTransaction;
 use Bavix\Wallet\Models\Wallet;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -114,21 +115,22 @@ class TransactionController extends Controller
 
     public function store(TransactionStoreRequest $request, User $user)
     {
+        $transaction = null;
         if ($request->amount > 0)
-            $user->deposit($request->amount, $this->getTransactionBaseMeta());
+            $transaction = $user->deposit($request->amount, $this->getTransactionBaseMeta());
         else if ($request->amount < 0)
-            $user->withdraw(abs($request->amount), $this->getTransactionBaseMeta());
+            $transaction = $user->withdraw(abs($request->amount), $this->getTransactionBaseMeta());
         else throw new \Exception('amount cannot be 0');
 
         //logs activity
         $transaction = $user->transactions()->latest()->first();
         activity()
-            ->performedOn($user->transactions()->latest()->first())
+            ->performedOn($transaction)
             ->causedBy(auth()->user())
             ->withProperties($transaction->toArray())
             ->event('created')
             ->log('created');
-        return response(['message' => 'ok']);
+        return response($transaction);
     }
 
     public function storeMany(TransactionStoreManyRequest $request)
